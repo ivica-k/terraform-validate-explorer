@@ -18,8 +18,8 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QHeaderView,
     QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QSizePolicy, QStatusBar, QTreeWidget, QTreeWidgetItem,
-    QVBoxLayout, QWidget)
+    QSizePolicy, QStatusBar, QToolBar, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -27,10 +27,27 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(833, 500)
         MainWindow.setMinimumSize(QSize(400, 500))
-        self.actionOpen = QAction(MainWindow)
-        self.actionOpen.setObjectName(u"actionOpen")
-        self.actionAbout = QAction(MainWindow)
-        self.actionAbout.setObjectName(u"actionAbout")
+        self.action_open = QAction(MainWindow)
+        self.action_open.setObjectName(u"action_open")
+        icon = QIcon(QIcon.fromTheme(u"document-open"))
+        self.action_open.setIcon(icon)
+        self.action_open.setIconVisibleInMenu(True)
+        self.action_about = QAction(MainWindow)
+        self.action_about.setObjectName(u"action_about")
+        icon1 = QIcon(QIcon.fromTheme(u"help-about"))
+        self.action_about.setIcon(icon1)
+        self.action_about.setIconVisibleInMenu(True)
+        self.action_reload = QAction(MainWindow)
+        self.action_reload.setObjectName(u"action_reload")
+        icon2 = QIcon(QIcon.fromTheme(u"view-refresh"))
+        self.action_reload.setIcon(icon2)
+        self.action_reload.setIconVisibleInMenu(True)
+        self.action_quit = QAction(MainWindow)
+        self.action_quit.setObjectName(u"action_quit")
+        self.action_quit.setCheckable(False)
+        icon3 = QIcon(QIcon.fromTheme(u"window-close"))
+        self.action_quit.setIcon(icon3)
+        self.action_quit.setIconVisibleInMenu(True)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
@@ -75,11 +92,26 @@ class Ui_MainWindow(object):
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.toolbar = QToolBar(MainWindow)
+        self.toolbar.setObjectName(u"toolbar")
+        self.toolbar.setMovable(False)
+        self.toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
+        self.toolbar.setFloatable(False)
+        MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolbar)
 
         self.menubar.addAction(self.menuFile.menuAction())
-        self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.action_open)
+        self.menuFile.addAction(self.action_reload)
         self.menuFile.addSeparator()
-        self.menuFile.addAction(self.actionAbout)
+        self.menuFile.addAction(self.action_about)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.action_quit)
+        self.toolbar.addAction(self.action_open)
+        self.toolbar.addAction(self.action_reload)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.action_about)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.action_quit)
 
         self.retranslateUi(MainWindow)
 
@@ -88,9 +120,15 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Terraform validate explorer", None))
-        self.actionOpen.setText(QCoreApplication.translate("MainWindow", u"Open", None))
-        self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))
+        self.action_open.setText(QCoreApplication.translate("MainWindow", u"Open", None))
+        self.action_about.setText(QCoreApplication.translate("MainWindow", u"About", None))
+        self.action_reload.setText(QCoreApplication.translate("MainWindow", u"Reload", None))
+#if QT_CONFIG(tooltip)
+        self.action_reload.setToolTip(QCoreApplication.translate("MainWindow", u"Reload the contents of the currently opened file.", None))
+#endif // QT_CONFIG(tooltip)
+        self.action_quit.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
         self.line_filter.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter resource name or address", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
+        self.toolbar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 

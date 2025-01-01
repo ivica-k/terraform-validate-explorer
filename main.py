@@ -27,7 +27,7 @@ from ui.about import Ui_dialog_about
 
 SEARCH_TYPES = ["contains", "does not contain", "regex"]
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
 class TerraformValidateExplorer(QMainWindow):
@@ -54,17 +54,27 @@ class TerraformValidateExplorer(QMainWindow):
         )
 
     def _setup_signals(self):
-        self.ui.actionOpen.triggered.connect(self.load_initial_data)
+        self.ui.action_open.triggered.connect(self.load_initial_data)
         self.ui.line_filter.textChanged.connect(self.filter_items)
         self.ui.combo_search_type.currentIndexChanged.connect(self.filter_items)
-        self.ui.actionAbout.triggered.connect(self._show_about)
+        self.ui.action_about.triggered.connect(self._show_about)
+        self.ui.action_reload.triggered.connect(self.load_initial_data)
+        self.ui.action_quit.triggered.connect(self.close)
+
+        if not self.file_contents:
+            self.ui.action_reload.setDisabled(True)
 
     def _show_about(self):
         dlg = AboutDialog()
         dlg.exec()
 
     def get_file_contents(self):
-        file_path = self.open_file()
+        # if a file path is not set, open the file; if it is set, just reload
+        # the file contents by reading from the same file path
+        if len(self.file_path) == 0:
+            file_path = self.open_file()
+        else:
+            file_path = self.file_path
 
         if file_path:
             with open(file_path, "r") as file:
@@ -72,7 +82,9 @@ class TerraformValidateExplorer(QMainWindow):
 
             if not parser.validation_file_valid(self.file_contents):
                 QMessageBox.critical(
-                    self, "Error", "This Terraform validate output file is invalid."
+                    self,
+                    "Error",
+                    "This 'terraform validate -json' output file is invalid.",
                 )
 
             else:
@@ -146,9 +158,6 @@ class TerraformValidateExplorer(QMainWindow):
             self.original_items = parser.get_initial_data(self.file_contents)
             items = TerraformValidateExplorer.contents_to_dict(self.original_items)
 
-            # save for future use to avoid reading the file again
-            # self.original_items = data
-
             self.fill_tree(items)
             num_errors = len(self.original_items.get("errors"))
             num_warnings = len(self.original_items.get("warnings"))
@@ -174,6 +183,9 @@ class TerraformValidateExplorer(QMainWindow):
             str(pathlib.Path.home()),
             "JSON (*.json)",
         )
+
+        self.file_path = file_path
+        self.ui.action_reload.setEnabled(True)
 
         return file_path
 
