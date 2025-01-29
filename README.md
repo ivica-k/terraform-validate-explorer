@@ -15,6 +15,7 @@ can be of help while upgrading Terraform provider versions and dealing with depr
     * ["contains" filter](#contains-filter)
     * ["does not contain" filter](#does-not-contain-filter)
     * ["regex" filter](#regex-filter)
+    * ["Only unique" toggle](#only-unique-toggle)
 <!-- TOC -->
 
 ## Get it
@@ -57,3 +58,20 @@ Suppose you want to look for a resource instance that has `future_` in the name,
 at the end of the resource name:
 
 ![](./img/regex.jpg)
+
+### "Only unique" toggle
+
+This toggle works in combination with any filter to show only unique resource addresses. This feature is useful when 
+validating many resources created by the same module.
+
+What is a "unique resource address"? If the full resource address is `module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read`,
+then a unique resource address is `snowflake_grant_privileges_to_role.functions_future_read`. See below for an example.
+
+Searching for `snowflake_grant_privileges_to_role.tasks_future_write` yields 60 warnings, but if you look closely - 
+it is the _same resource_, from the _same module_, just used many times.
+
+![](./img/contains_non_unique.png)
+
+Toggling the "Only unique" checkbox reveals that it is in fact just one resource, defined in a single module.
+
+![](./img/contains_unique.png)

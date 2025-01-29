@@ -27,7 +27,7 @@ from ui.about import Ui_dialog_about
 
 SEARCH_TYPES = ["contains", "does not contain", "regex"]
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 
 class TerraformValidateExplorer(QMainWindow):
@@ -60,6 +60,7 @@ class TerraformValidateExplorer(QMainWindow):
         self.ui.action_about.triggered.connect(self._show_about)
         self.ui.action_reload.triggered.connect(self.load_initial_data)
         self.ui.action_quit.triggered.connect(self.close)
+        self.ui.check_unique.stateChanged.connect(self.filter_items)
 
         if not self.file_contents:
             self.ui.action_reload.setDisabled(True)
@@ -98,6 +99,7 @@ class TerraformValidateExplorer(QMainWindow):
 
         line_text = str(self.ui.line_filter.text())
         search_type = self.ui.combo_search_type.currentText()
+        only_unique = self.ui.check_unique.isChecked()
         function_name = search_type.replace(" ", "_")
 
         if search_type == "regex" and len(line_text) > 0:
@@ -112,10 +114,15 @@ class TerraformValidateExplorer(QMainWindow):
                 # since each keystroke triggers this function
                 pass
 
-        elif len(line_text) > 3:
+        elif len(line_text) > 0:
             errors, warnings = getattr(parser, f"filter_{function_name}")(
                 self.original_items, line_text
             )
+
+            if only_unique:
+                errors, warnings = parser.filter_only_unique(
+                    {"errors": errors, "warnings": warnings}
+                )
 
         self.fill_tree(
             items=TerraformValidateExplorer.contents_to_dict(

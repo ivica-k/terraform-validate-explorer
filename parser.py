@@ -94,6 +94,38 @@ def filter_does_not_contain(
     return errors, warnings
 
 
+def _resource_address_from_full_address(address: str):
+    """
+    Returns the `resource_class.resource_name` from a full resource address. If a full resource address is
+    'module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read', then `resource_class.resource_name`
+    address is 'snowflake_grant_privileges_to_role.functions_future_read'
+    :param address: Full resource address, such as 'module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read'
+    :return:
+    """
+    return "".join(address.split(".")[-2:])
+
+
+def filter_only_unique(
+    data: dict,
+) -> Tuple[List[str], List[str]]:
+    """
+    Parses errors and warnings, returning only unique resource addresses. If a full resource address is
+    'module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read', then a unique resource
+    address is 'snowflake_grant_privileges_to_role.functions_future_read'
+    :param data: Dictionary of output from 'terraform validate'
+    :return: Tuple of lists with errors and warnings with unique resource addresses
+    """
+    warnings = list(
+        {
+            _resource_address_from_full_address(elem.get("address")): elem
+            for elem in data.get("warnings")
+        }.values()
+    )
+    errors = list({elem.get("detail"): elem for elem in data.get("errors")}.values())
+
+    return errors, warnings
+
+
 def filter_regex(data: dict, regex_expression: str) -> Tuple[List[str], List[str]]:
     """
     Parses errors and warnings, filtering those that match the `regex_expression` using `re.search()`

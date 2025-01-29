@@ -38,6 +38,13 @@
         <item>
          <widget class="QComboBox" name="combo_search_type"/>
         </item>
+        <item>
+         <widget class="QCheckBox" name="check_unique">
+          <property name="text">
+           <string>Only unique</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

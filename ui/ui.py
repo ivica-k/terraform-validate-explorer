@@ -16,10 +16,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QHeaderView,
-    QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QSizePolicy, QStatusBar, QToolBar, QTreeWidget,
-    QTreeWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QHBoxLayout,
+    QHeaderView, QLineEdit, QMainWindow, QMenu,
+    QMenuBar, QSizePolicy, QStatusBar, QToolBar,
+    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -66,6 +66,11 @@ class Ui_MainWindow(object):
         self.combo_search_type.setObjectName(u"combo_search_type")
 
         self.horizontalLayout.addWidget(self.combo_search_type)
+
+        self.check_unique = QCheckBox(self.centralwidget)
+        self.check_unique.setObjectName(u"check_unique")
+
+        self.horizontalLayout.addWidget(self.check_unique)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -128,6 +133,7 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.action_quit.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
         self.line_filter.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter resource name or address", None))
+        self.check_unique.setText(QCoreApplication.translate("MainWindow", u"Only unique", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.toolbar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
