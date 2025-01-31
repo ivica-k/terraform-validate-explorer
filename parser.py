@@ -41,10 +41,10 @@ def get_initial_data(data: dict) -> dict[str, List[str]]:
 
     assert len(warnings) == data.get(
         "warning_count"
-    ), f"Number of parsed warnings, {len(warnings)}, should be the same as the number of warnings in the file, which is {data.get("warning_count")}"
+    ), f"Number of parsed warnings, {len(warnings)}, should be the same as the number of warnings in the file, which is {data.get('warning_count')}"
     assert len(errors) == data.get(
         "error_count"
-    ), f"Number of parsed errors, {len(errors)}, should be the same as the number of errors in the file, which is {data.get("error_count")}"
+    ), f"Number of parsed errors, {len(errors)}, should be the same as the number of errors in the file, which is {data.get('error_count')}"
 
     return {
         "errors": errors,

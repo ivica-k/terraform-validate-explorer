@@ -27,7 +27,7 @@ from ui.about import Ui_dialog_about
 
 SEARCH_TYPES = ["contains", "does not contain", "regex"]
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 
 class TerraformValidateExplorer(QMainWindow):
