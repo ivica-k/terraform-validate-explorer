@@ -16,6 +16,7 @@ can be of help while upgrading Terraform provider versions and dealing with depr
     * ["does not contain" filter](#does-not-contain-filter)
     * ["regex" filter](#regex-filter)
     * ["Only unique" toggle](#only-unique-toggle)
+  * [Contributors](#contributors)
 <!-- TOC -->
 
 ## Get it
@@ -75,3 +76,9 @@ it is the _same resource_, from the _same module_, just used many times.
 Toggling the "Only unique" checkbox reveals that it is in fact just one resource, defined in a single module.
 
 ![](./img/contains_unique.png)
+
+## Contributors
+
+`terraform-validate-explorer` has more features and less bugs thanks to:
+
+- [olacortesb](https://github.com/olcortesb)
