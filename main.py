@@ -27,7 +27,7 @@ from ui.about import Ui_dialog_about
 
 SEARCH_TYPES = ["contains", "does not contain", "regex"]
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 
 class TerraformValidateExplorer(QMainWindow):
@@ -68,6 +68,12 @@ class TerraformValidateExplorer(QMainWindow):
     def _show_about(self):
         dlg = AboutDialog()
         dlg.exec()
+
+    def _enable_inputs(self):
+        self.ui.action_reload.setEnabled(True)
+        self.ui.line_filter.setEnabled(True)
+        self.ui.combo_search_type.setEnabled(True)
+        self.ui.check_unique.setEnabled(True)
 
     def get_file_contents(self):
         # if a file path is not set, open the file; if it is set, just reload
@@ -192,7 +198,7 @@ class TerraformValidateExplorer(QMainWindow):
         )
 
         self.file_path = file_path
-        self.ui.action_reload.setEnabled(True)
+        self._enable_inputs()
 
         return file_path
 
