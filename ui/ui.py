@@ -58,17 +58,20 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.line_filter = QLineEdit(self.centralwidget)
         self.line_filter.setObjectName(u"line_filter")
+        self.line_filter.setEnabled(False)
         self.line_filter.setMaxLength(255)
 
         self.horizontalLayout.addWidget(self.line_filter)
 
         self.combo_search_type = QComboBox(self.centralwidget)
         self.combo_search_type.setObjectName(u"combo_search_type")
+        self.combo_search_type.setEnabled(False)
 
         self.horizontalLayout.addWidget(self.combo_search_type)
 
         self.check_unique = QCheckBox(self.centralwidget)
         self.check_unique.setObjectName(u"check_unique")
+        self.check_unique.setEnabled(False)
 
         self.horizontalLayout.addWidget(self.check_unique)
 
