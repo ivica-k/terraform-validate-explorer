@@ -27,7 +27,7 @@ from ui.about import Ui_dialog_about
 
 SEARCH_TYPES = ["contains", "does not contain", "regex"]
 
-__version__ = "0.3.2"
+__version__ = "0.4.0"
 
 
 class TerraformValidateExplorer(QMainWindow):
@@ -69,11 +69,11 @@ class TerraformValidateExplorer(QMainWindow):
         dlg = AboutDialog()
         dlg.exec()
 
-    def _enable_inputs(self):
-        self.ui.action_reload.setEnabled(True)
-        self.ui.line_filter.setEnabled(True)
-        self.ui.combo_search_type.setEnabled(True)
-        self.ui.check_unique.setEnabled(True)
+    def _set_inputs_state(self, state: bool):
+        self.ui.action_reload.setEnabled(state)
+        self.ui.line_filter.setEnabled(state)
+        self.ui.combo_search_type.setEnabled(state)
+        self.ui.check_unique.setEnabled(state)
 
     def get_file_contents(self):
         # if a file path is not set, open the file; if it is set, just reload
@@ -168,16 +168,35 @@ class TerraformValidateExplorer(QMainWindow):
 
     def load_initial_data(self):
         if self.get_file_contents():
-            self.original_items = parser.get_initial_data(self.file_contents)
-            items = TerraformValidateExplorer.contents_to_dict(self.original_items)
+            try:
+                self.original_items = parser.get_initial_data(self.file_contents)
 
-            self.fill_tree(items)
-            num_errors = len(self.original_items.get("errors"))
-            num_warnings = len(self.original_items.get("warnings"))
+                items = TerraformValidateExplorer.contents_to_dict(self.original_items)
 
-            self.ui.statusbar.showMessage(
-                f"Number of errors: {str(num_errors)}. Number of warnings: {str(num_warnings)}"
-            )
+                self.fill_tree(items)
+                num_errors = len(self.original_items.get("errors"))
+                num_warnings = len(self.original_items.get("warnings"))
+
+                self.ui.statusbar.showMessage(
+                    f"Number of errors: {str(num_errors)}. Number of warnings: {str(num_warnings)}"
+                )
+
+                # at this point, the file is valid structure-wise (has all the key-value pairs)
+                # and it has errors or warnings, so inputs can be enabled and the file content can be parsed
+                self._set_inputs_state(True)
+
+            except ValueError as exc:
+                QMessageBox.critical(
+                    self,
+                    "Warning",
+                    str(exc),
+                )
+
+                # disable all input widgets but enable the Reload action so that the file can be reloaded
+                # (assuming it is fixed in the meantime)
+                self._set_inputs_state(False)
+                self.ui.action_reload.setEnabled(True)
+                self.ui.treeWidget.clear()
 
     def fill_tree(self, items: list = None):
         if not items:
@@ -196,9 +215,6 @@ class TerraformValidateExplorer(QMainWindow):
             str(pathlib.Path.home()),
             "JSON (*.json)",
         )
-
-        self.file_path = file_path
-        self._enable_inputs()
 
         return file_path
 
