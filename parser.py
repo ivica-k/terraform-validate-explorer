@@ -1,6 +1,8 @@
 import re
 from typing import List, Tuple
 
+ISSUES_URL = "https://github.com/ivica-k/terraform-validate-explorer/issues/new"
+
 
 def validation_file_valid(data: dict):
     """
@@ -39,12 +41,19 @@ def get_initial_data(data: dict) -> dict[str, List[str]]:
         elif elem.get("severity").lower() == "error":
             errors.append(elem)
 
-    assert len(warnings) == data.get(
-        "warning_count"
-    ), f"Number of parsed warnings, {len(warnings)}, should be the same as the number of warnings in the file, which is {data.get('warning_count')}"
-    assert len(errors) == data.get(
-        "error_count"
-    ), f"Number of parsed errors, {len(errors)}, should be the same as the number of errors in the file, which is {data.get('error_count')}"
+    if len(warnings) != data.get("warning_count"):
+        raise ValueError(
+            f"'warning_count' in the file is {data.get('warning_count')}, but the number of parsed warnings is "
+            f"{len(warnings)}.<br /><br />This may be due to manual changes to the JSON file.<br /><br />"
+            f"If you believe this is a bug, please report it via the <a href='{ISSUES_URL}'>issues page</a>."
+        )
+
+    if len(errors) != data.get("error_count"):
+        raise ValueError(
+            f"'error_count' in the file is {data.get('error_count')}, but the number of parsed errors is "
+            f"{len(errors)}.<br /><br />This may be due to manual changes to the JSON file.<br /><br />"
+            f"If you believe this is a bug, please report it via the <a href='{ISSUES_URL}'>issues page</a>."
+        )
 
     return {
         "errors": errors,
