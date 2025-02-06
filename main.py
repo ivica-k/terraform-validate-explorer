@@ -27,7 +27,7 @@ from ui.about import Ui_dialog_about
 
 SEARCH_TYPES = ["contains", "does not contain", "regex"]
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 
 class TerraformValidateExplorer(QMainWindow):
@@ -94,7 +94,25 @@ class TerraformValidateExplorer(QMainWindow):
                     "This 'terraform validate -json' output file is invalid.",
                 )
 
+            elif (
+                self.file_contents.get("error_count") == 0
+                and self.file_contents.get("warning_count") == 0
+            ):
+                QMessageBox.information(
+                    self,
+                    "All good!",
+                    "The file you opened is valid and has no errors or warnings - great job!",
+                )
+
+                # set the file path to its original value; this must be done to allow the user to open another file.
+                # if self.file_path is not an empty string, then the original file is reloaded and the program ends up
+                # in a loop if that file has no errors or warnings, thanks to the if-else from the beginning of this
+                # function
+                self.file_path = ""
+
             else:
+                self.file_path = file_path
+
                 return True
         else:
             return False
