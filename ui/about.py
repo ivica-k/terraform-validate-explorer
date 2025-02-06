@@ -65,6 +65,7 @@ class Ui_dialog_about(object):
         self.label_text.setMaximumSize(QSize(300, 16777215))
         self.label_text.setTextFormat(Qt.TextFormat.RichText)
         self.label_text.setWordWrap(True)
+        self.label_text.setOpenExternalLinks(True)
 
         self.verticalLayout.addWidget(self.label_text)
 
