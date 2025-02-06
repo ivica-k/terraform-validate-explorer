@@ -1,21 +1,28 @@
 import sys
+import pytest
 import os
 import json
+
 
 with open("tests/assets/to_validate.json", "r", encoding="utf-8") as file:
     data = json.load(file)
 
+
 with open("tests/assets/warnings_errors.json", "r", encoding="utf-8") as file:
     warnings_errors = json.load(file)
+
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
+
 import parser  # type: ignore
+
 
 def test_validation_file_valid():
     assert parser.validation_file_valid(data) == True
+
 
 def test_get_initial_data():
     assert parser.get_initial_data(data) == {
@@ -23,32 +30,114 @@ def test_get_initial_data():
         "warnings": [data["diagnostics"][0]],
     }
 
-def test_filter_contains():
-    assert parser.filter_contains(data, "moon") == ([], [])
 
-def test_filter_does_not_contain():
-    assert parser.filter_does_not_contain(data, "moon") == ([], [])
+@pytest.mark.parametrize(
+    "test_input,expected,text_to_filter",
+    [
+        (
+            {  # this is test input
+                "errors": [{"detail": "Public access is enabled"}],
+                "warnings": [
+                    {"address": "Instance type not specified 1"},
+                    {"address": "Public access is enabled"},
+                ],
+            },
+            (  # this is the expected result
+                [{"detail": "Public access is enabled"}],
+                [{"address": "Public access is enabled"}],
+            ),
+            "Public",  # this is the text to filter
+        ),
+    ],
+)
+def test_filter_contains(test_input, expected, text_to_filter):
+    assert parser.filter_contains(test_input, text_to_filter=text_to_filter) == expected
 
-def test_filter_only_unique():
-    assert parser.filter_only_unique(warnings_errors) == (
-        [
-            warnings_errors["errors"][2],
-            warnings_errors["errors"][1],
-        ],
-        [
-            warnings_errors["warnings"][2],
-            warnings_errors["warnings"][1],
-        ],
+
+@pytest.mark.parametrize(
+    "test_input,expected,text_to_filter",
+    [
+        (
+            {  # this is test input
+                "errors": [{"detail": "Public access is enabled"}],
+                "warnings": [
+                    {"address": "Instance type not specified 1"},
+                    {"address": "Public access is enabled"},
+                ],
+            },
+            (  # this is the expected result
+                [{"detail": "Public access is enabled"}],
+                [
+                    {"address": "Instance type not specified 1"},
+                    {"address": "Public access is enabled"},
+                ],
+            ),
+            "Moon",  # this is the text to filter
+        ),
+    ],
+)
+def test_filter_does_not_contain(test_input, expected, text_to_filter):
+    assert (
+        parser.filter_does_not_contain(test_input, text_to_filter=text_to_filter)
+        == expected
     )
 
-def test_filter_regex():
-    assert parser.filter_regex(warnings_errors, "aws_instance.") == (
-        [
-            warnings_errors["errors"][0],
-            warnings_errors["errors"][2],
-        ],
-        [
-            warnings_errors["warnings"][0],
-            warnings_errors["warnings"][2],
-        ],
+
+@pytest.mark.parametrize(
+    "test_input,expected",
+    [
+        (
+            {  # this is test input
+                "errors": [{"detail": "Public access is enabled"}],
+                "warnings": [
+                    {
+                        "address": "module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read"
+                    },
+                    {
+                        "address": "module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read"
+                    },
+                    {"address": "1.2.3.4"},
+                ],
+            },
+            (  # this is the expected result
+                [{"detail": "Public access is enabled"}],
+                [
+                    {
+                        "address": "snowflake_grant_privileges_to_role.functions_future_read"
+                    },
+                    {
+                        "address": "snowflake_grant_privileges_to_role.functions_future_read"
+                    },
+                    {"address": "3.4"},
+                ],
+            ),
+        ),
+    ],
+)
+def test_filter_only_unique(test_input, expected):
+    assert parser.filter_only_unique(test_input) == expected
+
+
+@pytest.mark.parametrize(
+    "test_input,expected,regex_expression",
+    [
+        (
+            {  # this is test input
+                "errors": [{"detail": "Public access is enabled"}],
+                "warnings": [
+                    {"address": "Instance type not specified 1"},
+                    {"address": "Public access is enabled"},
+                ],
+            },
+            (  # this is the expected result
+                [{"detail": "Public access is enabled"}],
+                [{"address": "Public access is enabled"}],
+            ),
+            "Public",  # this is the text of regex
+        ),
+    ],
+)
+def test_filter_regex(test_input, expected, regex_expression):
+    assert (
+        parser.filter_regex(test_input, regex_expression=regex_expression) == expected
     )
