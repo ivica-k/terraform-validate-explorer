@@ -2,10 +2,10 @@ import sys
 import os
 import json
 
-with open("tests/to_validate.json", "r", encoding="utf-8") as file:
+with open("tests/assets/to_validate.json", "r", encoding="utf-8") as file:
     data = json.load(file)
 
-with open("tests/warnings_errors.json", "r", encoding="utf-8") as file:
+with open("tests/assets/warnings_errors.json", "r", encoding="utf-8") as file:
     warnings_errors = json.load(file)
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
