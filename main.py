@@ -27,7 +27,7 @@ from ui.about import Ui_dialog_about
 
 SEARCH_TYPES = ["contains", "does not contain", "regex"]
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
 
 
 class TerraformValidateExplorer(QMainWindow):
@@ -249,7 +249,7 @@ class AboutDialog(QDialog):
         self.about.label_text.setText(
             """Easily filter, search and explore the output of 'terraform validate -json'.<br /><br />
             
-<a href="https://github.com/ivica-k/terraform-validate-explore">Website</a>
+<a href="https://github.com/ivica-k/terraform-validate-explorer">Website</a>
 """
         )
 
