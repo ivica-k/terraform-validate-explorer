@@ -102,7 +102,7 @@ def _resource_address_from_full_address(address: str):
     :param address: Full resource address, such as 'module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read'
     :return:
     """
-    return "".join(address.split(".")[-2:])
+    return ".".join(address.split(".")[-2:])
 
 
 def filter_only_unique(
@@ -115,12 +115,12 @@ def filter_only_unique(
     :param data: Dictionary of output from 'terraform validate'
     :return: Tuple of lists with errors and warnings with unique resource addresses
     """
-    warnings = list(
-        {
-            _resource_address_from_full_address(elem.get("address")): elem
-            for elem in data.get("warnings")
-        }.values()
-    )
+    warnings = data.get("warnings")
+    warnings = [
+        {key: _resource_address_from_full_address(value) for key, value in d.items()}
+        for d in warnings
+    ]
+
     errors = list({elem.get("detail"): elem for elem in data.get("errors")}.values())
 
     return errors, warnings
