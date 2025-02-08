@@ -74,7 +74,7 @@ def filter_contains(data: dict, text_to_filter: str) -> Tuple[List[str], List[st
         if text_to_filter in elem.get("address")
     ]
     errors = [
-        elem for elem in data.get("errors", []) if text_to_filter in elem.get("detail")
+        elem for elem in data.get("errors", []) if text_to_filter in elem.get("address")
     ]
 
     return errors, warnings
@@ -97,7 +97,7 @@ def filter_does_not_contain(
     errors = [
         elem
         for elem in data.get("errors", [])
-        if text_to_filter not in elem.get("detail")
+        if text_to_filter not in elem.get("address")
     ]
 
     return errors, warnings
@@ -130,7 +130,7 @@ def filter_only_unique(
             for elem in data.get("warnings")
         }.values()
     )
-    errors = list({elem.get("detail"): elem for elem in data.get("errors")}.values())
+    errors = list({elem.get("address"): elem for elem in data.get("errors")}.values())
 
     return errors, warnings
 
@@ -150,7 +150,7 @@ def filter_regex(data: dict, regex_expression: str) -> Tuple[List[str], List[str
     errors = [
         elem
         for elem in data.get("errors", [])
-        if re.search(regex_expression, elem.get("detail"))
+        if re.search(regex_expression, elem.get("address"))
     ]
 
     return errors, warnings

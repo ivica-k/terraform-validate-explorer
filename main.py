@@ -27,7 +27,7 @@ from ui.about import Ui_dialog_about
 
 SEARCH_TYPES = ["contains", "does not contain", "regex"]
 
-__version__ = "0.5.1"
+__version__ = "0.6.0"
 
 
 class TerraformValidateExplorer(QMainWindow):
@@ -50,7 +50,7 @@ class TerraformValidateExplorer(QMainWindow):
 
         self._setup_signals()
         self.ui.statusbar.showMessage(
-            "Open a file generated with 'terraform validate -json' to continue."
+            "Open a file generated with 'terraform validate -json' or 'tofu validate -json' to continue."
         )
 
     def _setup_signals(self):
@@ -91,7 +91,7 @@ class TerraformValidateExplorer(QMainWindow):
                 QMessageBox.critical(
                     self,
                     "Error",
-                    "This 'terraform validate -json' output file is invalid.",
+                    "This <code>terraform validate -json</code> or <code>tofu validate -json</code> output file is invalid.",
                 )
 
             elif (
@@ -247,7 +247,7 @@ class AboutDialog(QDialog):
             f"<b>Terraform validate explorer v{__version__}</b>"
         )
         self.about.label_text.setText(
-            """Easily filter, search and explore the output of 'terraform validate -json'.<br /><br />
+            """Easily filter, search and explore the output of <code>terraform validate -json</code> or<br /><code>tofu validate -json</code>.<br /><br />
             
 <a href="https://github.com/ivica-k/terraform-validate-explorer">Website</a>
 """
