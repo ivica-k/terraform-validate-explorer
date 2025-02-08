@@ -46,89 +46,44 @@ def test_filter_contains(test_input, text_to_filter, expected_output):
 
 
 @pytest.mark.parametrize(
-    "test_input,expected,text_to_filter",
+    "test_input,text_to_filter,expected_output",
     [
         (
-            {  # this is test input
-                "errors": [{"detail": "Public access is enabled"}],
-                "warnings": [
-                    {"address": "Instance type not specified 1"},
-                    {"address": "Public access is enabled"},
-                ],
-            },
-            (  # this is the expected result
-                [{"detail": "Public access is enabled"}],
-                [
-                    {"address": "Instance type not specified 1"},
-                    {"address": "Public access is enabled"},
-                ],
-            ),
-            "Moon",  # this is the text to filter
+            mock_test_input,
+            "snowflake", # show all non-snowflake resources
+            mock_expected_output_does_not_contain,
         ),
     ],
 )
-def test_filter_does_not_contain(test_input, expected, text_to_filter):
-    assert (
-        parser.filter_does_not_contain(test_input, text_to_filter=text_to_filter)
-        == expected
-    )
+def test_filter_does_not_contain(test_input, text_to_filter, expected_output):
+    actual_output = parser.filter_does_not_contain(test_input, text_to_filter=text_to_filter)
+    assert actual_output == expected_output
 
 
 @pytest.mark.parametrize(
-    "test_input,expected",
+    "test_input,expected_output",
     [
         (
-            {  # this is test input
-                "errors": [{"detail": "Public access is enabled"}],
-                "warnings": [
-                    {
-                        "address": "module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read"
-                    },
-                    {
-                        "address": "module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read"
-                    },
-                    {"address": "1.2.3.4"},
-                ],
-            },
-            (  # this is the expected result
-                [{"detail": "Public access is enabled"}],
-                [
-                    {
-                        "address": "snowflake_grant_privileges_to_role.functions_future_read"
-                    },
-                    {
-                        "address": "snowflake_grant_privileges_to_role.functions_future_read"
-                    },
-                    {"address": "3.4"},
-                ],
-            ),
+            mock_test_input,
+            mock_expected_output_unique,
         ),
     ],
 )
-def test_filter_only_unique(test_input, expected):
-    assert parser.filter_only_unique(test_input) == expected
+def test_filter_only_unique(test_input, expected_output):
+    actual_output = parser.filter_only_unique(test_input)
+    assert actual_output == expected_output
 
 
 @pytest.mark.parametrize(
-    "test_input,expected,regex_expression",
+    "test_input,regex,expected_output",
     [
         (
-            {  # this is test input
-                "errors": [{"detail": "Public access is enabled"}],
-                "warnings": [
-                    {"address": "Instance type not specified 1"},
-                    {"address": "Public access is enabled"},
-                ],
-            },
-            (  # this is the expected result
-                [{"detail": "Public access is enabled"}],
-                [{"address": "Public access is enabled"}],
-            ),
-            "Public",  # this is the text of regex
+            mock_test_input,
+            ".*_files$", # returns only addresses that end in '_files'
+            mock_expected_output_regex,
         ),
     ],
 )
-def test_filter_regex(test_input, expected, regex_expression):
-    assert (
-        parser.filter_regex(test_input, regex_expression=regex_expression) == expected
-    )
+def test_filter_regex(test_input, regex, expected_output):
+    actual_output = parser.filter_regex(test_input, regex)
+    assert actual_output == expected_output

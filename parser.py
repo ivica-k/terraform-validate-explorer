@@ -124,12 +124,12 @@ def filter_only_unique(
     :param data: Dictionary of output from 'terraform validate'
     :return: Tuple of lists with errors and warnings with unique resource addresses
     """
-    warnings = data.get("warnings")
-    warnings = [
-        {key: _resource_address_from_full_address(value) for key, value in d.items()}
-        for d in warnings
-    ]
-
+    warnings = list(
+        {
+            _resource_address_from_full_address(elem.get("address")): elem
+            for elem in data.get("warnings")
+        }.values()
+    )
     errors = list({elem.get("address"): elem for elem in data.get("errors")}.values())
 
     return errors, warnings
