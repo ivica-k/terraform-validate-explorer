@@ -3,6 +3,8 @@ import pytest
 import os
 import json
 
+from inputs_outputs import *
+
 
 with open("tests/assets/to_validate.json", "r", encoding="utf-8") as file:
     data = json.load(file)
@@ -28,26 +30,18 @@ def test_get_initial_data():
 
 
 @pytest.mark.parametrize(
-    "test_input,expected,text_to_filter",
+    "test_input,text_to_filter,expected_output",
     [
         (
-            {  # this is test input
-                "errors": [{"detail": "Public access is enabled"}],
-                "warnings": [
-                    {"address": "Instance type not specified 1"},
-                    {"address": "Public access is enabled"},
-                ],
-            },
-            (  # this is the expected result
-                [{"detail": "Public access is enabled"}],
-                [{"address": "Public access is enabled"}],
-            ),
-            "Public",  # this is the text to filter
+            mock_test_input,
+            "functions_future_read",
+            mock_expected_output_contains,
         ),
     ],
 )
-def test_filter_contains(test_input, expected, text_to_filter):
-    assert parser.filter_contains(test_input, text_to_filter=text_to_filter) == expected
+def test_filter_contains(test_input, text_to_filter, expected_output):
+    actual_output = parser.filter_contains(test_input, text_to_filter)
+    assert actual_output == expected_output
 
 
 @pytest.mark.parametrize(
