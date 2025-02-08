@@ -2,30 +2,16 @@
 <ui version="4.0">
  <class>dialog_about</class>
  <widget class="QDialog" name="dialog_about">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>398</width>
-    <height>192</height>
-   </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="minimumSize">
    <size>
-    <width>398</width>
-    <height>192</height>
+    <width>402</width>
+    <height>220</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>398</width>
-    <height>192</height>
+    <width>402</width>
+    <height>220</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -103,6 +89,9 @@
            </property>
            <property name="textFormat">
             <enum>Qt::TextFormat::RichText</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
            </property>
            <property name="wordWrap">
             <bool>true</bool>

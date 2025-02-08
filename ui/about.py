@@ -23,14 +23,8 @@ class Ui_dialog_about(object):
     def setupUi(self, dialog_about):
         if not dialog_about.objectName():
             dialog_about.setObjectName(u"dialog_about")
-        dialog_about.resize(398, 192)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(dialog_about.sizePolicy().hasHeightForWidth())
-        dialog_about.setSizePolicy(sizePolicy)
-        dialog_about.setMinimumSize(QSize(398, 192))
-        dialog_about.setMaximumSize(QSize(398, 192))
+        dialog_about.setMinimumSize(QSize(402, 220))
+        dialog_about.setMaximumSize(QSize(402, 220))
         self.horizontalLayout_3 = QHBoxLayout(dialog_about)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.verticalLayout_2 = QVBoxLayout()
@@ -64,6 +58,7 @@ class Ui_dialog_about(object):
         self.label_text.setMinimumSize(QSize(300, 0))
         self.label_text.setMaximumSize(QSize(300, 16777215))
         self.label_text.setTextFormat(Qt.TextFormat.RichText)
+        self.label_text.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
         self.label_text.setWordWrap(True)
         self.label_text.setOpenExternalLinks(True)
 
