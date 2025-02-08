@@ -3,7 +3,8 @@ import pytest
 import os
 import json
 
-from inputs_outputs import *
+
+from tests.inputs_outputs import *
 
 
 with open("tests/assets/to_validate.json", "r", encoding="utf-8") as file:
