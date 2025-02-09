@@ -111,7 +111,7 @@ def _resource_address_from_full_address(address: str):
     :param address: Full resource address, such as 'module.snowflake.module.my_infra.snowflake_grant_privileges_to_role.functions_future_read'
     :return:
     """
-    return "".join(address.split(".")[-2:])
+    return ".".join(address.split(".")[-2:])
 
 
 def filter_only_unique(

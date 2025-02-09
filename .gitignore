@@ -249,3 +249,4 @@ cython_debug/
 *.cflags
 
 
+.vscode
