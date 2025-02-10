@@ -78,8 +78,12 @@ Toggling the "Only unique" checkbox reveals that it is in fact just one resource
 
 ![](./img/contains_unique.png)
 
+## Testing
+
+For information about testing and how to run it [Here](tests/README.md)
+
 ## Contributors
 
 `terraform-validate-explorer` has more features and less bugs thanks to:
 
-- [olacortesb](https://github.com/olcortesb)
+- [olcortesb](https://github.com/olcortesb)
