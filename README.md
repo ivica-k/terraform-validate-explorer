@@ -82,4 +82,4 @@ Toggling the "Only unique" checkbox reveals that it is in fact just one resource
 
 `terraform-validate-explorer` has more features and less bugs thanks to:
 
-- [olacortesb](https://github.com/olcortesb)
+- [olcortesb](https://github.com/olcortesb)
