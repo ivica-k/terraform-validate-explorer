@@ -5,13 +5,10 @@
 - pyenv (https://github.com/pyenv/pyenv)
 - pytest (https://docs.pytest.org/en/stable/)
 
-## How this work: 
-1. Install nox
+## How this works: 
+1. Install `nox` and `pytest`
 ```bash
-python3 --version
-pip --version
-python3 -m pip install nox
-python3 -m nox --version
+pip install -r requirements.txt
 ```
 2. Run all Python versions configured in the `noxfile.py` file.
 
