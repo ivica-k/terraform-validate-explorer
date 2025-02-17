@@ -14,5 +14,13 @@
     - Run `nox`
 
 ```bash
-make runtest
+make -f runtest
+```
+
+## Known Issues
+
+If you use macOS and an ARM processor, you may need to run the installation command with these parameters.
+
+```bash
+PYTHON_BUILD_HOMEBREW_OPENSSL_FORMULA=openssl@1.1 arch -x86_64 pyenv install 3.12.2
 ```

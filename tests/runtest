@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-PYTHON_VERSIONS := 3.9 3.10 3.11 3.12 3.13.0rc1
+PYTHON_VERSIONS := 3.9 3.10 3.11 3.12 3.13.2
 REQUIREMENTS := test_requirements.txt
 PYENV_EXISTS := $(shell command -v pyenv)
 
