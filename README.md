@@ -54,7 +54,7 @@ To verify that only `snowflake_` resources are deprecated, I filtered all the wa
 ### "regex" filter
 
 If the other two filters are not cutting it for you, you can always do it with
-[one of the worlds's write-only languages](https://blog.codinghorror.com/regular-expressions-now-you-have-two-problems/).
+[one of the world's write-only languages](https://blog.codinghorror.com/regular-expressions-now-you-have-two-problems/).
 
 Suppose you want to look for a resource instance that has `future_` in the name, followed by a four-letter word that is
 at the end of the resource name:
