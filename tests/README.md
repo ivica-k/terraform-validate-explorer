@@ -8,7 +8,7 @@
 ## How this works: 
 1. Install `nox` and `pytest`
 ```bash
-pip install -r requirements.txt
+pip install -r test_requirements.txt
 ```
 2. Run all Python versions configured in the `noxfile.py` file.
 
