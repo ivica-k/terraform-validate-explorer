@@ -7,14 +7,12 @@
 
 ## How this works:
 
-We wrote a Makefile tha do: 
-
 Run the Makefile to:
-    - Verify that `pyenv` is installed
-    - Install the required dependencies
-    - Install the specified Python version
-    - Configure the global Python version
-    - Run `nox`
+- Verify that `pyenv` is installed
+- Install the required dependencies
+- Install the specified Python version
+- Configure the global Python version
+- Run `nox`
 
 
 ```bash
