@@ -6,15 +6,20 @@
 - pytest (https://docs.pytest.org/en/stable/)
 
 ## How this works:
-1. Run the Makefile to:
+
+We wrote a Makefile tha do: 
+
+Run the Makefile to:
     - Verify that `pyenv` is installed
     - Install the required dependencies
     - Install the specified Python version
     - Configure the global Python version
     - Run `nox`
 
+
 ```bash
-make -f runtest
+# In root folder
+make -f Makefile
 ```
 
 ## Known Issues
