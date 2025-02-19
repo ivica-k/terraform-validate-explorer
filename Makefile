@@ -3,9 +3,9 @@ PYTHON_VERSIONS := 3.9 3.10 3.11 3.12 3.13.2
 REQUIREMENTS := test_requirements.txt
 PYENV_EXISTS := $(shell command -v pyenv)
 
-.PHONY: all install_pyenv install_requirements install_python_versions set_global_versions run_nox
+.PHONY: all install_pyenv install_requirements install_python_versions run_test
 
-all: install_pyenv install_requirements install_python_versions set_global_versions run_nox
+all: install_pyenv install_requirements install_python_versions run_test
 
 install_pyenv:
 ifeq ($(PYENV_EXISTS),)
@@ -17,7 +17,7 @@ endif
 
 install_requirements:
 	@echo "Installing test_requirements..."
-	@pip install -r $(REQUIREMENTS)
+	@pip install -r tests/$(REQUIREMENTS)
 	@echo "Requirements installed."
 
 install_python_versions:
@@ -25,12 +25,7 @@ install_python_versions:
 	@for version in $(PYTHON_VERSIONS); do pyenv install $$version || true; done
 	@echo "Python versions installed."
 
-set_global_versions:
-	@echo "Setting global Python versions..."
-	@pyenv global $(PYTHON_VERSIONS)
-	@echo "Global Python versions set."
-
-run_nox:
+run_test:
 	@echo "Running nox..."
 	@nox
 	@echo "Nox execution completed."

@@ -7,7 +7,7 @@ import json
 from tests.inputs_outputs import *
 
 
-with open("assets/to_validate.json", "r", encoding="utf-8") as file:
+with open("tests/assets/to_validate.json", "r", encoding="utf-8") as file:
     data = json.load(file)
 
 
