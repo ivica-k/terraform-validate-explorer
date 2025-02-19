@@ -17,6 +17,7 @@ resources.
     * ["does not contain" filter](#does-not-contain-filter)
     * ["regex" filter](#regex-filter)
     * ["Only unique" toggle](#only-unique-toggle)
+  * [Testing](#testing)
   * [Contributors](#contributors)
 <!-- TOC -->
 
