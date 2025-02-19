@@ -17,6 +17,7 @@ resources.
     * ["does not contain" filter](#does-not-contain-filter)
     * ["regex" filter](#regex-filter)
     * ["Only unique" toggle](#only-unique-toggle)
+  * [Testing](#testing)
   * [Contributors](#contributors)
 <!-- TOC -->
 
@@ -77,6 +78,10 @@ it is the _same resource_, from the _same module_, just used many times.
 Toggling the "Only unique" checkbox reveals that it is in fact just one resource, defined in a single module.
 
 ![](./img/contains_unique.png)
+
+## Testing
+
+For information about testing and how to run it [Here](tests/README.md)
 
 ## Contributors
 
