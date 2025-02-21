@@ -1,0 +1,30 @@
+name: app-test
+
+on:
+  push:
+    branches: [ feat/add-github-actions ]
+  pull_request:
+    branches: [ feat/add-github-actions ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install requirements
+        run: pip install -r tests/test_requirements.txt
+      
+      - name: Run Test
+        run: nox -s test-${{ matrix.python-version }}
+
+
