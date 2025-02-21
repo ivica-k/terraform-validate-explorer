@@ -1,0 +1,16 @@
+name: python-test
+
+on:
+  push:
+    branches: [ feat/add-github-actions ]
+  pull_request:
+    branches: [ feat/add-github-actions ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: build application
+      run: make -f Makefile
