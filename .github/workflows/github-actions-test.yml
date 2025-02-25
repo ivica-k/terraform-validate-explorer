@@ -2,9 +2,9 @@ name: app-test
 
 on:
   push:
-    branches: [ feat/add-github-actions ]
+    branches: [ main ]
   pull_request:
-    branches: [ feat/add-github-actions ]
+    branches: [ main ]
 
 jobs:
   build:
