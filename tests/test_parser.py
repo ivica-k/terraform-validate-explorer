@@ -10,6 +10,9 @@ from tests.inputs_outputs import *
 with open("tests/assets/to_validate.json", "r", encoding="utf-8") as file:
     data = json.load(file)
 
+with open("tests/assets/invalid.json", "r", encoding="utf-8") as file:
+    ivalid_data = json.load(file)
+
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -21,6 +24,10 @@ import parser  # type: ignore
 
 def test_validation_file_valid():
     assert parser.validation_file_valid(data) == True
+
+
+def test_validation_file_invalid():
+    assert parser.validation_file_valid(ivalid_data) == False
 
 
 def test_get_initial_data():
